@@ -95,3 +95,18 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_nice(void)
+{
+  int nicevalue;
+  int temp = argint(0, &nicevalue);
+  if (temp < -20 || temp > 19)
+  {
+    return -1;
+  }
+  
+  myproc()->nicevalue = nicevalue;
+
+  return 0;
+}

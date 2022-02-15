@@ -53,6 +53,7 @@ procinit(void)
   for(p = proc; p < &proc[NPROC]; p++) {
       initlock(&p->lock, "proc");
       p->kstack = KSTACK((int) (p - proc));
+      p->nicevalue = 10;
   }
 }
 
@@ -654,3 +655,5 @@ procdump(void)
     printf("\n");
   }
 }
+
+extern struct proc proc[NPROC];
