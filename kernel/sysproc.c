@@ -110,3 +110,38 @@ sys_nice(void)
 
   return 0;
 }
+
+int getpstat(struct pstat*){
+  //TODO
+  //The pstat object passed in the function is modified by the kernel to contain information
+  //about processes on the system.
+  //pstat – a pointer to a pstat object which will be updated by the kernel
+  //returns – 0 on success, -1 on error
+}
+
+uint64 sys_getpstat(void) {
+ uint64 result = 0;
+ struct proc *p = myproc();
+ uint64 upstat; // the virtual (user) address of the passed argument struct pstat
+ struct pstat kpstat; // a struct pstat in kernel memory
+ // get the system call argument passed by the user program
+ if (argaddr(0, &upstat) < 0)
+ return -1;
+ // TODO: fill the arrays in kpstat (see the definition of struct pstat above).
+ for (int i = 0; i < NPROC; i++)
+   {
+     kpstat[i].pid =
+     kpstat[i].nice =
+     if (kpstat[i].state = USED){
+      kpstat[i].inuse = 1;
+     }
+     else{
+      kpstat[i].inuse = 0;
+     }
+   }
+ // The data to fill in the arrays comes from the process table array proc[].
+ // copy pstat from kernel memory to user memory
+ if (copyout(p->pagetable, upstat, (char *)&kpstat, sizeof(kpstat)) < 0)
+ return -1;
+ return result;
+}

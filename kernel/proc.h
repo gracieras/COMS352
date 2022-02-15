@@ -108,3 +108,6 @@ struct proc {
 
   int nicevalue;
 };
+
+//get access to the process table from any file in the kernel
+extern struct proc proc[NPROC];
