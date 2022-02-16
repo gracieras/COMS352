@@ -125,12 +125,12 @@ uint64 sys_getpstat(void) {
  for (int i = 0; i < NPROC; i++)   //loops through every value in the array
    {
      if (p[i].state != UNUSED){    //check if inuse
-      kpstat->inuse[i] = 1;
-      kpstat->pid[i] = p[i].pid;    //fill/set pid
-      kpstat->nice[i] = p[i].nice;  //fill/set nice value
+      kpstat.inuse[i] = 1;
+      kpstat.pid[i] = p[i].pid;    //fill/set pid
+      kpstat.nice[i] = p[i].nicevalue;  //fill/set nice value
      }
      else{
-      kpstat->inuse[i] = 0;
+      kpstat.inuse[i] = 0;
      }
    }
 
