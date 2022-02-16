@@ -124,21 +124,20 @@ uint64 sys_getpstat(void) {
  // TODO: fill the arrays in kpstat (see the definition of struct pstat above).
  for (int i = 0; i < NPROC; i++)   //loops through every value in the array
    {
-     if (proc[i].state != UNUSED){    //check if inuse
+     if (p[i].state != UNUSED){    //check if inuse
       kpstat->inuse[i] = 1;
-      kpstat->pid[i] = proc[i].pid;    //fill/set pid
-      kpstat->nice[i] = proc[i].nice;  //fill/set nice value
+      kpstat->pid[i] = p[i].pid;    //fill/set pid
+      kpstat->nice[i] = p[i].nice;  //fill/set nice value
      }
      else{
       kpstat->inuse[i] = 0;
      }
    }
 
- return 0;
-
  // The data to fill in the arrays comes from the process table array proc[].
  // copy pstat from kernel memory to user memory
  if (copyout(p->pagetable, upstat, (char *)&kpstat, sizeof(kpstat)) < 0)
  return -1;
+
  return result;
 }
