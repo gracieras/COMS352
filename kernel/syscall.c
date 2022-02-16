@@ -6,6 +6,7 @@
 #include "proc.h"
 #include "syscall.h"
 #include "defs.h"
+#include "pstat.h"
 
 // Fetch the uint64 at addr from the current process.
 int
@@ -105,6 +106,7 @@ extern uint64 sys_wait(void);
 extern uint64 sys_write(void);
 extern uint64 sys_uptime(void);
 extern uint64 sys_nice(void);
+extern uint64 sys_getpstat(void)
 
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -129,6 +131,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_nice]    sys_nice,
+[SYS_getpstat]    sys_getpstat,
 };
 
 void

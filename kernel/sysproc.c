@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "pstat.h"
 
 uint64
 sys_exit(void)
@@ -127,18 +128,21 @@ uint64 sys_getpstat(void) {
  // get the system call argument passed by the user program
  if (argaddr(0, &upstat) < 0)
  return -1;
+
  // TODO: fill the arrays in kpstat (see the definition of struct pstat above).
- for (int i = 0; i < NPROC; i++)
+ for (int i = 0; i < NPROC; i++)   //loops through every value in the array
    {
-     kpstat[i].pid =
-     kpstat[i].nice =
-     if (kpstat[i].state = USED){
-      kpstat[i].inuse = 1;
+     kpstat->pid[i] = proc[i].pid;    //fill/set pid
+     kpstat->nice[i] = proc[i].nice;  //fill/set nice value
+
+     if (proc[i].state != UNUSED){    //check if inuse
+      kpstat->inuse[i] = 1;
      }
      else{
-      kpstat[i].inuse = 0;
+      kpstat->inuse[i] = 0;
      }
    }
+
  // The data to fill in the arrays comes from the process table array proc[].
  // copy pstat from kernel memory to user memory
  if (copyout(p->pagetable, upstat, (char *)&kpstat, sizeof(kpstat)) < 0)
