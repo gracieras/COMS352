@@ -106,7 +106,7 @@ extern uint64 sys_wait(void);
 extern uint64 sys_write(void);
 extern uint64 sys_uptime(void);
 extern uint64 sys_nice(void);
-extern uint64 sys_getpstat(void)
+extern uint64 sys_getpstat(void);
 
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
