@@ -6,7 +6,9 @@ int
 main(int argc, char *argv[])
 {
     int nicevalue = atoi(argv[1]);
-    nice(nicevalue);
+    // nice();
+
+    sys_nice(nicevalue);
 
     char **arr = (char **)&argv[3];
     exec(argv[2], arr);
