@@ -6,10 +6,16 @@
 int
 main(int argc, char *argv[])
 {
-    int nicevalue = atoi(argv[1]);
+    int nicevalue;
+    if (atoi(argv[1]) >= -20 || atoi(argv[1]) <= 19)
+    {
+        nicevalue = atoi(argv[1]);
+        nice(nicevalue);
+        exit(1);
+    }
     
-    sys_nice(nicevalue);
-
+    
     char **arr = (char **)&argv[3];
     exec(argv[2], arr);
+    exit(0);
 }
