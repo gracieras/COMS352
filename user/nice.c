@@ -2,6 +2,7 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 #include "kernel/syscall.h"
+#include "kernel/proc.c"
 
 int
 main(int argc, char *argv[])
