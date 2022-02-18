@@ -21,5 +21,5 @@ main(void)
       //printf("%d\n",stats.nice[i]);
     //}
   //}
-  //return 0;
+  return 0;
 }
