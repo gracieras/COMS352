@@ -112,6 +112,8 @@ sys_nice(void)
   return 0;
 }
 
+int getpstat(struct pstat*);
+
 uint64 sys_getpstat(void) {
  uint64 result = 0;
  struct proc *p = myproc();
