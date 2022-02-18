@@ -601,17 +601,16 @@ int
 nice(int nicevalue)
 {
 
-  sys_nice(nicevalue);
-  // struct proc *p = myproc();
-  // acquire(&p->lock);
-  // if (nicevalue < -20 || nicevalue > 19)
-  // {
-  //   release(&p->lock);
-  //   return -1;
-  // }
-  // p->nicevalue = nicevalue;
-  // // myproc()->nicevalue = nicevalue;
-  // release(&p->lock);
+  struct proc *p = myproc();
+  acquire(&p->lock);
+  if (nicevalue < -20 || nicevalue > 19)
+  {
+    release(&p->lock);
+    return -1;
+  }
+  p->nicevalue = nicevalue;
+  // myproc()->nicevalue = nicevalue;
+  release(&p->lock);
   return 0;
 }
 
