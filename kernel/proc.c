@@ -600,13 +600,16 @@ kill(int pid)
 int
 nice(int nicevalue)
 {
+  struct proc *p;
+  acquire(&p->lock);
   if (nicevalue < -20 || nicevalue > 19)
   {
+    release(&p->lock);
     return -1;
   }
-
-  myproc()->nicevalue = nicevalue;
-
+  p->nicevalue = nicevalue;
+  // myproc()->nicevalue = nicevalue;
+  release(&p->lock);
   return 0;
 }
 

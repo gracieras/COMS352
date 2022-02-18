@@ -1,8 +1,7 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
-#include "kernel/syscall.h"
-#include "kernel/proc.c"
+// #include "kernel/proc.c"
 
 int
 main(int argc, char *argv[])
@@ -20,3 +19,16 @@ main(int argc, char *argv[])
     exec(argv[2], arr);
     exit(0);
 }
+
+// int
+// nice(int nicevalue)
+// {
+//   if (nicevalue < -20 || nicevalue > 19)
+//   {
+//     return -1;
+//   }
+
+//     myproc()->nicevalue = nicevalue;
+
+//   return 0;
+// }
