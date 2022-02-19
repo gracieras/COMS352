@@ -97,7 +97,7 @@ sys_uptime(void)
   return xticks;
 }
 
-int
+uint64
 sys_nice(void)
 {
   int nicevalue;

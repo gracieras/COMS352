@@ -19,16 +19,3 @@ main(int argc, char *argv[])
     exec(argv[2], arr);
     exit(0);
 }
-
-// int
-// nice(int nicevalue)
-// {
-//   if (nicevalue < -20 || nicevalue > 19)
-//   {
-//     return -1;
-//   }
-
-//     myproc()->nicevalue = nicevalue;
-
-//   return 0;
-// }
