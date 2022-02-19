@@ -11,11 +11,8 @@ main(int argc, char *argv[])
     {
         nicevalue = atoi(argv[1]);
         nice(nicevalue);
-        printf("test1");
-        //exit(1);
     }
     
-    printf("test2");
     char **arr = (char **)&argv[2];
     exec(argv[2], arr);
     exit(0);
