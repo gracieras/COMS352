@@ -11,11 +11,11 @@ main(int argc, char *argv[])
     {
         nicevalue = atoi(argv[1]);
         nice(nicevalue);
-        exit(1);
+        //exit(1);
     }
     
     
-    //char **arr = (char **)&argv[2];
-    exec(argv[2], &argv[3]);
+    char **arr = (char **)&argv[3];
+    exec(argv[2], arr);
     exit(0);
 }
