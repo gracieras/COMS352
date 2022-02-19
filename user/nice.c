@@ -15,7 +15,7 @@ main(int argc, char *argv[])
     }
     
     
-    char **arr = (char **)&argv[2];
-    exec(argv[2], arr);
+    //char **arr = (char **)&argv[2];
+    exec(argv[2], &argv[3]);
     exit(0);
 }
