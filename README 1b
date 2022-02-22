@@ -1,2 +1,7 @@
 Grace Rasmussen
 Noah Tang
+
+Files added to the project:
+kernel/pstat.h
+user/nice.c
+user/pstattest.c
