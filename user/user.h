@@ -24,8 +24,8 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int nice(int);
-int getpstat(struct pstat*);
+int nice(int);                  //declare nice system call on user side
+int getpstat(struct pstat*);    //declare getpstat system call on user side
 
 // ulib.c
 int stat(const char*, struct stat*);

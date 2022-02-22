@@ -105,8 +105,8 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_wait(void);
 extern uint64 sys_write(void);
 extern uint64 sys_uptime(void);
-extern uint64 sys_nice(void);
-extern uint64 sys_getpstat(void);
+extern uint64 sys_nice(void);       //declare kernel side function nice
+extern uint64 sys_getpstat(void);   //declare kernel side function getpstat
 
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -130,8 +130,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
-[SYS_nice]    sys_nice,
-[SYS_getpstat]    sys_getpstat,
+[SYS_nice]    sys_nice,           //declare kernel side function nice
+[SYS_getpstat]    sys_getpstat,   //declare kernel side function getpstat
 };
 
 void
