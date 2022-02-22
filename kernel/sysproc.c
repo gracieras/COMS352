@@ -101,18 +101,18 @@ uint64
 sys_nice(void)
 {
   int nicevalue;
-  int temp = argint(0, &nicevalue);
-  if (temp < -20 || temp > 19)
+  int temp = argint(0, &nicevalue); //getting nice value from argint
+  if (temp < -20 || temp > 19) //checking if the value is in bounds
   {
-    return -1;
+    return -1; //returns -1 if it fails
   }
   
-  myproc()->nicevalue = nicevalue;
+  myproc()->nicevalue = nicevalue; //sets the nice value
 
-  return 0;
+  return 0; // returns 0 if it succeeds
 }
 
-int getpstat(struct pstat*);
+//int getpstat(struct pstat*);
 
 uint64 sys_getpstat(void) {
  uint64 result = 0;

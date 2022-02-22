@@ -106,7 +106,7 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
 
-  int nicevalue;
+  int nicevalue; //for setting nice value
 };
 
 //get access to the process table from any file in the kernel
