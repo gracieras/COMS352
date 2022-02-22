@@ -21,5 +21,6 @@ main(void)
       printf("%d\n",stats.nice[i]);
     }
   }
+  exit(0);
   return 0;
 }
