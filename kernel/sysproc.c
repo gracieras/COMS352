@@ -126,13 +126,13 @@ uint64 sys_getpstat(void) {
  // TODO: fill the arrays in kpstat (see the definition of struct pstat above).
  for (int i = 0; i < NPROC; i++)   //loops through every value in the array
    {
-     if (p[i].state != UNUSED){    //check if inuse
-      kpstat.inuse[i] = 1;
-      kpstat.pid[i] = p[i].pid;    //fill/set pid
+     if (p[i].state != UNUSED){         //check if inuse and fills all values if so
+      kpstat.inuse[i] = 1;              //fill/set inuse value
+      kpstat.pid[i] = p[i].pid;         //fill/set pid
       kpstat.nice[i] = p[i].nicevalue;  //fill/set nice value
      }
      else{
-      kpstat.inuse[i] = 0;
+      kpstat.inuse[i] = 0;              //fill/set insuse value
      }
    }
 
