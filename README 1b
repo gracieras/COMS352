@@ -1,6 +1,9 @@
 Grace Rasmussen
 Noah Tang
 
+Included in this zip file is the given xv6-riscv with comepleted nice and getpstat systemcalls, 
+as well as the nice utility program
+
 Files added to the project:
 kernel/pstat.h
 user/nice.c
