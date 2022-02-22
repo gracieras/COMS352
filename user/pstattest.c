@@ -6,20 +6,20 @@
 int
 main(void)
 {
-  //struct pstat stats;
-  //getpstat(&stats);
+  struct pstat stats;
+  getpstat(&stats);
   // print the arrays in stats
-  //for(int i=0;i<NPROC;i++){
-    //if(stats.inuse[i]==1){
-      //printf("inuse");
-      //printf("%d\n",stats.inuse[i]);
+  for(int i=0;i<NPROC;i++){
+    if(stats.inuse[i]==1){
+      printf("inuse");
+      printf("%d\n",stats.inuse[i]);
 
-      //printf("pid");
-      //printf("%d\n",stats.pid[i]);
+      printf("pid");
+      printf("%d\n",stats.pid[i]);
 
-      //printf("nice");
-      //printf("%d\n",stats.nice[i]);
-    //}
-  //}
+      printf("nice");
+      printf("%d\n",stats.nice[i]);
+    }
+  }
   return 0;
 }
