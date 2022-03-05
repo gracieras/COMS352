@@ -122,6 +122,26 @@ dequeue(uint16 q)
   return id;
 }
 
+//code from book
+void
+insert(uint32 id, uint16 q, uint32 key)
+{
+  uint16 curr;
+  uint16 prev;
+
+  curr = firstid(q);
+  while (qtable[curr].pass >= key) {
+    curr = qtable[curr].next;
+  }
+
+  prev = qtable[curr].prev;
+  qtable[id].next = curr;
+  qtable[id].prev = prev;
+  qtable[id].pass = key;
+  qtable[prev].next = id;
+  qtable[curr].prev = id;
+}
+
 // Allocate a page for each process's kernel stack.
 // Map it high in memory, followed by an invalid
 // guard page.
