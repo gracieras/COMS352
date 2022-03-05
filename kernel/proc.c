@@ -6,6 +6,9 @@
 #include "proc.h"
 #include "defs.h"
 
+#define MAX_UINT64 (-1)
+#define EMPTY MAX_UINT64
+
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
@@ -25,6 +28,99 @@ extern char trampoline[]; // trampoline.S
 // memory model when using p->parent.
 // must be acquired before any p->lock.
 struct spinlock wait_lock;
+
+
+// a node of the linked list
+struct qentry {
+ uint64 pass; // used by the stride scheduler to keep the list sorted
+ uint64 prev; // index of previous qentry in list
+ uint64 next; // index of next qentry in list
+};
+
+struct qentry qtable[NPROC+2];
+
+//code from book
+#define queuehead(q) (q)
+#define queuetail(q) ((q) + 1)
+#define firstid(q)   (qtable[queuehead(q)].next)
+#define lastid(q)    (qtable[queuetail(q)].prev)
+#define isempty(q)   (firstid(q) >= NPROC)
+#define nonempty(q)  (firstid(q) < NPROC)
+#define firstkey(q)  (qtable[firstid(q)].pass)
+#define lastkey(q)   (qtable[lastid(q)].pass)
+
+//code from book
+uint32
+getfirst(uint16 q)
+{
+  uint32 head;
+
+  if (isempty(q)) {
+    return EMPTY;
+  }
+
+  head = queuehead(q);
+  return getitem(qtable[head].next);
+}
+
+//code from book
+uint32
+getlast(uint16 q)
+{
+  uint32 tail;
+  
+  if (isempty(q)) {
+    return EMPTY;
+  }
+
+  tail = queuetail(q);
+  return getitem(qtable[tail].prev);
+}
+
+//code from book
+uint32
+getitem(uint16 id)
+{
+  uint32 prev, next;
+
+  next = qtable[id].next;
+  prev = qtable[id].prev;
+  qtable[prev].next = next;
+  qtable[next].prev = prev;
+  return id;
+}
+
+//code from book
+uint32
+enqueue(uint32 id, uint16 q)
+{
+  int tail, prev;
+
+  tail = queuetail(q);
+  prev = qtable[tail].prev;
+
+  qtable[id].next = tail;
+  qtable[id].prev = prev;
+  qtable[prev].next = id;
+  qtable[tail].prev = id;
+  return id;
+}
+
+//code from book
+uint32
+dequeue(uint16 q)
+{
+  uint32 id;
+  if (isempty(q))
+  {
+    return EMPTY;
+  }
+
+  id = getfirst(q);
+  qtable[id].prev = EMPTY;
+  qtable[id].next = EMPTY;
+  return id;
+}
 
 // Allocate a page for each process's kernel stack.
 // Map it high in memory, followed by an invalid
@@ -464,6 +560,12 @@ scheduler(void)
       release(&p->lock);
     }
   }
+}
+
+void
+scheduler_rr(void)
+{
+
 }
 
 // Switch to scheduler.  Must hold only p->lock
