@@ -609,6 +609,12 @@ scheduler_rr(void)
 
 }
 
+void
+scheduler_stride(void)
+{
+
+}
+
 // Switch to scheduler.  Must hold only p->lock
 // and have changed proc->state. Saves and restores
 // intena because intena is a property of this
