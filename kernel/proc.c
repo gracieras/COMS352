@@ -367,6 +367,9 @@ userinit(void)
   p = allocproc();
   initproc = p;
   uint16 queue = newqueue();
+  uint64 pindex = p - proc;
+
+  
   
   // allocate one user page and copy init's instructions
   // and data into it.
@@ -381,7 +384,7 @@ userinit(void)
   p->cwd = namei("/");
 
   p->state = RUNNABLE;
-  enqueue(p, queue);
+  enqueue(p[pindex].pid, queue);
 
   release(&p->lock);
 }
