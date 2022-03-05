@@ -54,6 +54,7 @@ procinit(void)
       initlock(&p->lock, "proc");
       p->kstack = KSTACK((int) (p - proc));
       p->nicevalue = 10;
+      p->runtime = 0;
   }
 }
 
@@ -499,6 +500,7 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
+  p->runtime += 1;
   sched();
   release(&p->lock);
 }
