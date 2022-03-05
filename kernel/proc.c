@@ -8,6 +8,8 @@
 
 #define MAX_UINT64 (-1)
 #define EMPTY MAX_UINT64
+#define MAXKEY 0x7FFFFFFF
+#define MINKEY 0x80000000
 
 struct cpu cpus[NCPU];
 
@@ -140,6 +142,23 @@ insert(uint32 id, uint16 q, uint32 key)
   qtable[id].pass = key;
   qtable[prev].next = id;
   qtable[curr].prev = id;
+}
+
+uint16
+newqueue(void)
+{
+  static uint16 nextqid=NPROC;
+  uint16 q;
+
+  q = nextqid;
+  nextqid +=2;
+  qtable[queuehead(q)].next = queuetail(q);
+  qtable[queuehead(q)].prev = EMPTY;
+  qtable[queuehead(q)].pass = MAXKEY;
+  qtable[queuetail(q)].next = EMPTY;
+  qtable[queuetail(q)].prev = queuehead(q);
+  qtable[queuetail(q)].pass = MINKEY;
+  return q;
 }
 
 // Allocate a page for each process's kernel stack.
@@ -347,6 +366,7 @@ userinit(void)
 
   p = allocproc();
   initproc = p;
+  uint16 queue = newqueue();
   
   // allocate one user page and copy init's instructions
   // and data into it.
@@ -361,6 +381,7 @@ userinit(void)
   p->cwd = namei("/");
 
   p->state = RUNNABLE;
+  enqueue(p, queue);
 
   release(&p->lock);
 }
