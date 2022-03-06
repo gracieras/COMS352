@@ -40,6 +40,11 @@ main()
     trapinithart();   // install kernel trap vector
     plicinithart();   // ask PLIC for device interrupts
   }
-
-  scheduler();        
+  // 1 - original, 2 - round-robin with queue, and 3 - stride
+  if (SCHEDULER == 1)
+    scheduler();     
+  else if (SCHEDULER == 2)
+    scheduler_rr();   
+  else
+    scheduler_stride();
 }
