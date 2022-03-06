@@ -11,4 +11,4 @@
 #define NBUF         (MAXOPBLOCKS*3)  // size of disk block cache
 #define FSSIZE       1000  // size of file system in blocks
 #define MAXPATH      128   // maximum file path name
-#define SCHEDULER
+#define SCHEDULER 2 // 1 - original, 2 - round-robin with queue, and 3 - stride

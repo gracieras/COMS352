@@ -8,8 +8,8 @@
 
 #define MAX_UINT64 (-1)
 #define EMPTY MAX_UINT64
-#define MAXKEY 0x7FFFFFFF
-#define MINKEY 0x80000000
+// #define MAXKEY 0x7FFFFFFF
+// #define MINKEY 0x80000000
 
 struct cpu cpus[NCPU];
 
@@ -41,6 +41,8 @@ struct qentry {
 
 struct qentry qtable[NPROC+2];
 
+uint16 queue;
+
 //code from book
 #define queuehead(q) (q)
 #define queuetail(q) ((q) + 1)
@@ -52,7 +54,7 @@ struct qentry qtable[NPROC+2];
 #define lastkey(q)   (qtable[lastid(q)].pass)
 
 //code from book
-uint32
+int
 getfirst(uint16 q)
 {
   uint32 head;
@@ -66,7 +68,7 @@ getfirst(uint16 q)
 }
 
 //code from book
-uint32
+int
 getlast(uint16 q)
 {
   uint32 tail;
@@ -80,7 +82,7 @@ getlast(uint16 q)
 }
 
 //code from book
-uint32
+int
 getitem(uint16 id)
 {
   uint32 prev, next;
@@ -93,7 +95,7 @@ getitem(uint16 id)
 }
 
 //code from book
-uint32
+int
 enqueue(uint32 id, uint16 q)
 {
   int tail, prev;
@@ -109,7 +111,7 @@ enqueue(uint32 id, uint16 q)
 }
 
 //code from book
-uint32
+int
 dequeue(uint16 q)
 {
   uint32 id;
@@ -144,7 +146,7 @@ insert(uint32 id, uint16 q, uint32 key)
   qtable[curr].prev = id;
 }
 
-uint16
+int
 newqueue(void)
 {
   static uint16 nextqid=NPROC;
@@ -152,12 +154,13 @@ newqueue(void)
 
   q = nextqid;
   nextqid +=2;
+  
   qtable[queuehead(q)].next = queuetail(q);
   qtable[queuehead(q)].prev = EMPTY;
-  qtable[queuehead(q)].pass = MAXKEY;
+  qtable[queuehead(q)].pass = MAX_UINT64;
   qtable[queuetail(q)].next = EMPTY;
   qtable[queuetail(q)].prev = queuehead(q);
-  qtable[queuetail(q)].pass = MINKEY;
+  qtable[queuetail(q)].pass = 0;
   return q;
 }
 
@@ -366,10 +369,6 @@ userinit(void)
 
   p = allocproc();
   initproc = p;
-  uint16 queue = newqueue();
-  uint64 pindex = p - proc;
-
-  
   
   // allocate one user page and copy init's instructions
   // and data into it.
@@ -384,6 +383,7 @@ userinit(void)
   p->cwd = namei("/");
 
   p->state = RUNNABLE;
+  uint64 pindex = p - proc;
   enqueue(p[pindex].pid, queue);
 
   release(&p->lock);
@@ -455,6 +455,8 @@ fork(void)
 
   acquire(&np->lock);
   np->state = RUNNABLE;
+  uint64 pindex = np - proc;
+  enqueue(np[pindex].pid, queue);
   release(&np->lock);
 
   return pid;
@@ -581,8 +583,10 @@ scheduler(void)
 {
   struct proc *p;
   struct cpu *c = mycpu();
-  
   c->proc = 0;
+
+  queue = newqueue();
+  
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
@@ -607,7 +611,7 @@ scheduler(void)
 }
 
 void
-scheduler_rr(void)
+scheduler_rr(int q)
 {
 
 }
@@ -653,6 +657,9 @@ yield(void)
   acquire(&p->lock);
   p->state = RUNNABLE;
   p->runtime += 1;
+  uint64 pindex = p - proc;
+
+  enqueue(p[pindex].pid, queue);
   sched();
   release(&p->lock);
 }
@@ -721,6 +728,8 @@ wakeup(void *chan)
       acquire(&p->lock);
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
+        uint64 pindex = p - proc;
+        enqueue(p[pindex].pid, queue);
       }
       release(&p->lock);
     }
@@ -742,6 +751,8 @@ kill(int pid)
       if(p->state == SLEEPING){
         // Wake process from sleep().
         p->state = RUNNABLE;
+        uint64 pindex = p - proc;
+        enqueue(p[pindex].pid, queue);
       }
       release(&p->lock);
       return 0;
