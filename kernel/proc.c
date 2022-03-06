@@ -609,7 +609,7 @@ scheduler(void)
 }
 
 void
-scheduler_rr(int q)
+scheduler_rr(void)
 {
   struct proc *p;
   struct cpu *c = mycpu();
