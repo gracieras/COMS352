@@ -107,8 +107,10 @@ struct proc {
   char name[16];               // Process name (debugging)
 
   int nicevalue; //for setting nice value
-  int runtime;
-  int stride;
+
+  int runtime;   //for setting runtine
+  int stride;    //for setting stride
+  int pass;      //for setting pass
 };
 
 //get access to the process table from any file in the kernel
