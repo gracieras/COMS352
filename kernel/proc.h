@@ -108,6 +108,7 @@ struct proc {
 
   int nicevalue; //for setting nice value
   int runtime;
+  int stride;
 };
 
 //get access to the process table from any file in the kernel
