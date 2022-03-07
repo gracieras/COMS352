@@ -111,7 +111,8 @@ sys_nice(void)
 
   int stride;
   int tickets;
-
+  //Tickets are assigned based on the nice value from the table
+  //Note that nice values start at -20, so the table lookup requires first adding 20 to the nice value
   static const int nice_to_tickets[40] = {
     /* -20 */ 88761, 71755, 56483, 46273, 36291,
     /* -15 */ 29154, 23254, 18705, 14949, 11916,
@@ -122,7 +123,7 @@ sys_nice(void)
     /* 10 */ 110, 87, 70, 56, 45,
     /* 15 */ 36, 29, 23, 18, 15,
   };
-  nice_to_tickets[40] = (myproc()->nicevalue);
+  tickets = nice_to_tickets[myproc()->nicevalue + 20];   //convert nicevalue to tickets based on table
   stride = 1000000 / tickets; // stride is 1 million / tickets
 
   return 0; // returns 0 if it succeeds
