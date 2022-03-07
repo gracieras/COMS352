@@ -384,7 +384,22 @@ userinit(void)
 
   p->state = RUNNABLE;
   uint64 pindex = p - proc;
-  enqueue(p[pindex].pid, queue);
+  if (SCHEDULER == 1)
+  {
+    enqueue(p[pindex].pid, queue);
+  }
+  else if (SCHEDULER == 2)
+  {
+    for (int i = 0; i < 66; i++)
+    {
+      if (nice(p->nicevalue) < qtable[i].pass)
+      {
+        insert(i, queue, nice(p->nicevalue));
+        break;
+      }
+    }
+  }
+  
 
   release(&p->lock);
 }
