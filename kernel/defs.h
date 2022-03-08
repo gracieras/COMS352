@@ -104,9 +104,15 @@ void            yield(void);
 int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
+
 int             newqueue(void);
 void            scheduler_rr(void);
 void            scheduler_stride(void);
+int             enqueue(uint32 id, uint16 q);
+int             dequeue(uint16 q);
+void            insert(uint32 id, uint16 q, uint32 key);
+int             getlast(uint16 q);
+int             getfirst(uint16 q);
 int             getitem(uint16 id);
 
 // swtch.S
