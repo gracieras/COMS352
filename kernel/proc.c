@@ -282,7 +282,7 @@ found:
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
-  p->pass = firstkey(queue) + p->pass; //for new processes that get added.
+  p->pass = firstkey(queue) + p->stride; //for new processes that get added.
   return p;
 }
 
@@ -396,9 +396,9 @@ userinit(void)
     for (int i = 0; i < 66; i++)
     {
       //nice(p->nicevalue);
-      if (p->pass < qtable[getitem(i)].pass)
+      if (p->stride < qtable[getitem(i)].pass)
       {
-        insert(i, queue, p->pass); //stride
+        insert(i, queue, p->stride); //stride
         break;
       }
     }
@@ -485,9 +485,9 @@ fork(void)
     for (int i = 0; i < 66; i++)
     {
       //nice(np->nicevalue);
-      if (np->pass < qtable[getitem(i)].pass)
+      if (np->stride < qtable[getitem(i)].pass)
       {
-        insert(i, queue, np->pass);
+        insert(i, queue, np->stride);
         break;
       }
     }
@@ -778,9 +778,9 @@ yield(void)
     for (int i = 0; i < 66; i++)
     {
       //nice(p->nicevalue);
-      if (p->pass < qtable[getitem(i)].pass)
+      if (p->stride < qtable[getitem(i)].pass)
       {
-        insert(i, queue, p->pass);
+        insert(i, queue, p->stride);
         break;
       }
     }
@@ -864,9 +864,9 @@ wakeup(void *chan)
           for (int i = 0; i < 66; i++)
           {
             //nice(p->nicevalue);
-            if (p->pass < qtable[getitem(i)].pass)
+            if (p->stride < qtable[getitem(i)].pass)
             {
-              insert(i, queue, p->pass);
+              insert(i, queue, p->stride);
               break;
             }
           }
@@ -903,9 +903,9 @@ kill(int pid)
           for (int i = 0; i < 66; i++)
           {
             //nice(p->nicevalue);
-            if (p->pass < qtable[getitem(i)].pass)
+            if (p->stride < qtable[getitem(i)].pass)
             {
-              insert(i, queue, p->pass);
+              insert(i, queue, p->stride);
               break;
             }
           }
