@@ -125,7 +125,7 @@ sys_nice(void)
   };
   tickets = nice_to_tickets[myproc()->nicevalue + 20];   //convert nicevalue to tickets based on table
   stride = 1000000 / tickets; // stride is 1 million / tickets
-
+  myproc()->pass = stride;
   return 0; // returns 0 if it succeeds
 }
 
