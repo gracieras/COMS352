@@ -11,8 +11,12 @@ main(void)
 
     if (c1_pid == 0) {
         /* Child 1 code goes here */
+        nice(14); //sets the nice value to 14
+        
     } else if (c2_pid == 0) {
         /* Child 2 code goes here */
+        nice(17); //sets the nice value to 17
+        
     } else {
         /* Parent code goes here */
     }
