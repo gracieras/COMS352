@@ -249,7 +249,7 @@ allocproc(void)
 
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
-    nice(p->nicevalue);
+    //nice(p->nicevalue);
     if(p->state == UNUSED) {
       goto found;
     } else {
