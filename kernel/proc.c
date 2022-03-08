@@ -392,7 +392,7 @@ userinit(void)
   {
     for (int i = 0; i < 66; i++)
     {
-      if (nice(p->nicevalue) < qtable[i].pass)
+      if (nice(p->nicevalue) < qtable[getitem(i)].pass)
       {
         insert(i, queue, nice(p->nicevalue));
         break;
@@ -471,7 +471,21 @@ fork(void)
   acquire(&np->lock);
   np->state = RUNNABLE;
   uint64 pindex = np - proc;
-  enqueue(np[pindex].pid, queue);
+  if (SCHEDULER == 1)
+  {
+    enqueue(p[pindex].pid, queue);
+  }
+  else if (SCHEDULER == 2)
+  {
+    for (int i = 0; i < 66; i++)
+    {
+      if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+      {
+        insert(i, queue, nice(p->nicevalue));
+        break;
+      }
+    }
+  }
   release(&np->lock);
 
   return pid;
@@ -734,7 +748,21 @@ yield(void)
   p->runtime += 1;
   uint64 pindex = p - proc;
 
-  enqueue(p[pindex].pid, queue);
+  if (SCHEDULER == 1)
+  {
+    enqueue(p[pindex].pid, queue);
+  }
+  else if (SCHEDULER == 2)
+  {
+    for (int i = 0; i < 66; i++)
+    {
+      if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+      {
+        insert(i, queue, nice(p->nicevalue));
+        break;
+      }
+    }
+  }
   sched();
   release(&p->lock);
 }
@@ -804,7 +832,21 @@ wakeup(void *chan)
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
         uint64 pindex = p - proc;
-        enqueue(p[pindex].pid, queue);
+        if (SCHEDULER == 1)
+        {
+          enqueue(p[pindex].pid, queue);
+        }
+        else if (SCHEDULER == 2)
+        {
+          for (int i = 0; i < 66; i++)
+          {
+            if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+            {
+              insert(i, queue, nice(p->nicevalue));
+              break;
+            }
+          }
+        }
       }
       release(&p->lock);
     }
@@ -827,7 +869,21 @@ kill(int pid)
         // Wake process from sleep().
         p->state = RUNNABLE;
         uint64 pindex = p - proc;
-        enqueue(p[pindex].pid, queue);
+        if (SCHEDULER == 1)
+        {
+          enqueue(p[pindex].pid, queue);
+        }
+        else if (SCHEDULER == 2)
+        {
+          for (int i = 0; i < 66; i++)
+          {
+            if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+            {
+              insert(i, queue, nice(p->nicevalue));
+              break;
+            }
+          }
+        }
       }
       release(&p->lock);
       return 0;
