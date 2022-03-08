@@ -249,6 +249,7 @@ allocproc(void)
 
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
+    nice(p->nicevalue);
     if(p->state == UNUSED) {
       goto found;
     } else {
@@ -281,7 +282,6 @@ found:
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
-  nice(p->nicevalue);
   p->pass = firstkey(queue) + p->pass; //for new processes that get added.
   return p;
 }
