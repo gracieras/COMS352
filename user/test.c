@@ -5,7 +5,15 @@
 int
 main(void)
 {
-  //if(fork() > 0)
-    //sleep(5);  // Let child exit before parent.
-  //exit(0);
+    int c1_pid, c2_pid;     //define children to fork into
+
+    (c1_pid = fork()) && (c2_pid = fork()); // Creates two children
+
+    if (c1_pid == 0) {
+        /* Child 1 code goes here */
+    } else if (c2_pid == 0) {
+        /* Child 2 code goes here */
+    } else {
+        /* Parent code goes here */
+    }
 }
