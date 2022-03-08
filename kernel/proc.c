@@ -397,7 +397,7 @@ userinit(void)
       nice(p->nicevalue);
       if (p->pass < qtable[getitem(i)].pass)
       {
-        insert(i, queue, nice(p->nicevalue)); //stride
+        insert(i, queue, p->pass); //stride
         break;
       }
     }
@@ -486,7 +486,7 @@ fork(void)
       nice(np->nicevalue);
       if (np->pass < qtable[getitem(i)].pass)
       {
-        insert(i, queue, nice(p->nicevalue));
+        insert(i, queue, np->pass);
         break;
       }
     }
@@ -779,7 +779,7 @@ yield(void)
       nice(p->nicevalue);
       if (p->pass < qtable[getitem(i)].pass)
       {
-        insert(i, queue, nice(p->nicevalue));
+        insert(i, queue, p->pass);
         break;
       }
     }
@@ -865,7 +865,7 @@ wakeup(void *chan)
             nice(p->nicevalue);
             if (p->pass < qtable[getitem(i)].pass)
             {
-              insert(i, queue, nice(p->nicevalue));
+              insert(i, queue, p->pass);
               break;
             }
           }
@@ -904,7 +904,7 @@ kill(int pid)
             nice(p->nicevalue);
             if (p->pass < qtable[getitem(i)].pass)
             {
-              insert(i, queue, nice(p->nicevalue));
+              insert(i, queue, p->pass);
               break;
             }
           }
