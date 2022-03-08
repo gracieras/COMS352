@@ -281,7 +281,8 @@ found:
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
-  p->pass = firstkey(queue) + nice(p->nicevalue); //for new processes that get added.
+  nice(p->nicevalue);
+  p->pass = firstkey(queue) + p->pass; //for new processes that get added.
   return p;
 }
 
