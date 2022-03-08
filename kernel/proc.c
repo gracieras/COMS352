@@ -249,7 +249,7 @@ allocproc(void)
 
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
-    nice(p->nicevalue);
+    //nice(p->nicevalue);
     if(p->state == UNUSED) {
       goto found;
     } else {
@@ -484,7 +484,7 @@ fork(void)
   {
     for (int i = 0; i < 66; i++)
     {
-      nice(np->nicevalue);
+      //nice(np->nicevalue);
       if (np->pass < qtable[getitem(i)].pass)
       {
         insert(i, queue, np->pass);
@@ -777,7 +777,7 @@ yield(void)
   {
     for (int i = 0; i < 66; i++)
     {
-      nice(p->nicevalue);
+      //nice(p->nicevalue);
       if (p->pass < qtable[getitem(i)].pass)
       {
         insert(i, queue, p->pass);
@@ -863,7 +863,7 @@ wakeup(void *chan)
         {
           for (int i = 0; i < 66; i++)
           {
-            nice(p->nicevalue);
+            //nice(p->nicevalue);
             if (p->pass < qtable[getitem(i)].pass)
             {
               insert(i, queue, p->pass);
@@ -902,7 +902,7 @@ kill(int pid)
         {
           for (int i = 0; i < 66; i++)
           {
-            nice(p->nicevalue);
+            //nice(p->nicevalue);
             if (p->pass < qtable[getitem(i)].pass)
             {
               insert(i, queue, p->pass);
