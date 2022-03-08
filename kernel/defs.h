@@ -107,6 +107,7 @@ void            procdump(void);
 int             newqueue(void);
 void            scheduler_rr(void);
 void            scheduler_stride(void);
+int             getitem(uint16 id);
 
 // swtch.S
 void            swtch(struct context*, struct context*);
