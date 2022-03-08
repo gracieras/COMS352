@@ -249,7 +249,7 @@ allocproc(void)
 
   for(p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
-    //nice(p->nicevalue);
+    nice(p->nicevalue);
     if(p->state == UNUSED) {
       goto found;
     } else {
@@ -395,7 +395,7 @@ userinit(void)
   {
     for (int i = 0; i < 66; i++)
     {
-      nice(p->nicevalue);
+      //nice(p->nicevalue);
       if (p->pass < qtable[getitem(i)].pass)
       {
         insert(i, queue, p->pass); //stride
