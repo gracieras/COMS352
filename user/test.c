@@ -3,7 +3,7 @@
 #include "user/user.h"
 
 int
-main(void)
+main(int args, char *argv[])
 {
     while(1){
         int c1_pid = fork();       //create child 1
@@ -23,5 +23,7 @@ main(void)
         } else {
             /* Parent code goes here */
         }
+
+        return 0;
     }
 }
