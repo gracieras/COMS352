@@ -146,6 +146,7 @@ insert(uint32 id, uint16 q, uint32 key)
   qtable[curr].prev = id;
 }
 
+//modified code from book
 int
 newqueue(void)
 {
@@ -280,7 +281,7 @@ found:
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
-  p->pass = firstkey(queue) + nice(p->nicevalue);
+  p->pass = firstkey(queue) + nice(p->nicevalue); //for new processes that get added.
   return p;
 }
 
@@ -384,9 +385,10 @@ userinit(void)
 
   p->state = RUNNABLE;
   uint64 pindex = p - proc;
+  //adding the process to the queue depending on the scheduler
   if (SCHEDULER == 1)
   {
-    enqueue(p[pindex].pid, queue);
+    enqueue(p[pindex].pid, queue); //fifo
   }
   else if (SCHEDULER == 2)
   {
@@ -394,7 +396,7 @@ userinit(void)
     {
       if (nice(p->nicevalue) < qtable[getitem(i)].pass)
       {
-        insert(i, queue, nice(p->nicevalue));
+        insert(i, queue, nice(p->nicevalue)); //stride
         break;
       }
     }
@@ -471,6 +473,7 @@ fork(void)
   acquire(&np->lock);
   np->state = RUNNABLE;
   uint64 pindex = np - proc;
+  //adding the process to the queue depending on the scheduler
   if (SCHEDULER == 1)
   {
     enqueue(p[pindex].pid, queue);
@@ -649,7 +652,7 @@ scheduler_rr(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    while (!isempty(queue))
+    while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue);
       // p = qtable[queueid].pass;
@@ -747,7 +750,7 @@ yield(void)
   p->state = RUNNABLE;
   p->runtime += 1;
   uint64 pindex = p - proc;
-
+  //adding the process to the queue depending on the scheduler
   if (SCHEDULER == 1)
   {
     enqueue(p[pindex].pid, queue);
@@ -832,6 +835,7 @@ wakeup(void *chan)
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
         uint64 pindex = p - proc;
+        //adding the process to the queue depending on the scheduler
         if (SCHEDULER == 1)
         {
           enqueue(p[pindex].pid, queue);
@@ -869,6 +873,7 @@ kill(int pid)
         // Wake process from sleep().
         p->state = RUNNABLE;
         uint64 pindex = p - proc;
+        //adding the process to the queue depending on the scheduler
         if (SCHEDULER == 1)
         {
           enqueue(p[pindex].pid, queue);
