@@ -394,7 +394,8 @@ userinit(void)
   {
     for (int i = 0; i < 66; i++)
     {
-      if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+      nice(p->nicevalue);
+      if (p->pass < qtable[getitem(i)].pass)
       {
         insert(i, queue, nice(p->nicevalue)); //stride
         break;
@@ -476,13 +477,14 @@ fork(void)
   //adding the process to the queue depending on the scheduler
   if (SCHEDULER == 1)
   {
-    enqueue(p[pindex].pid, queue);
+    enqueue(np[pindex].pid, queue);
   }
   else if (SCHEDULER == 2)
   {
     for (int i = 0; i < 66; i++)
     {
-      if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+      nice(np->nicevalue);
+      if (np->pass < qtable[getitem(i)].pass)
       {
         insert(i, queue, nice(p->nicevalue));
         break;
@@ -774,7 +776,8 @@ yield(void)
   {
     for (int i = 0; i < 66; i++)
     {
-      if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+      nice(p->nicevalue);
+      if (p->pass < qtable[getitem(i)].pass)
       {
         insert(i, queue, nice(p->nicevalue));
         break;
@@ -859,7 +862,8 @@ wakeup(void *chan)
         {
           for (int i = 0; i < 66; i++)
           {
-            if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+            nice(p->nicevalue);
+            if (p->pass < qtable[getitem(i)].pass)
             {
               insert(i, queue, nice(p->nicevalue));
               break;
@@ -897,7 +901,8 @@ kill(int pid)
         {
           for (int i = 0; i < 66; i++)
           {
-            if (nice(p->nicevalue) < qtable[getitem(i)].pass)
+            nice(p->nicevalue);
+            if (p->pass < qtable[getitem(i)].pass)
             {
               insert(i, queue, nice(p->nicevalue));
               break;
