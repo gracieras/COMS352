@@ -670,14 +670,14 @@ scheduler_rr(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    for (int i = 0; i < NPROC; i++)
-    {
-      printf("%d ", qtable[i].next);
-    }
-    printf("\n");
+    // for (int i = 0; i < NPROC; i++)
+    // {
+    //   printf("%d ", qtable[i].next);
+    // }
+    // printf("\n");
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
-      printf("testdeque1");
+      // printf("testdeque1");
       queueid = dequeue(queue); //fifo
       acquire(&proc->lock);
       proc[queueid].state = RUNNING;
