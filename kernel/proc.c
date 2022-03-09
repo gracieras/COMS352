@@ -680,20 +680,20 @@ scheduler_rr(void)
       printf("head %d first node %d tail %d ", queuehead(queue), firstid(queue), queuetail(queue));
       queueid = dequeue(queue); //fifo
       
-      printf("queueid %d\n", queueid);
-      printf("testdeque1\n");
+      // printf("queueid %d\n", queueid);
+      // printf("testdeque1\n");
       acquire(&proc->lock);
-      printf("testdeque2\n");
+      // printf("testdeque2\n");
       proc[queueid].state = RUNNING;
-      printf("testdeque3\n");
+      // printf("testdeque3\n");
       c->proc = proc;
-      printf("testdeque4\n");
+      // printf("testdeque4\n");
       swtch(&c->context, &proc->context);
-      printf("testdeque5\n");
+      // printf("testdeque5\n");
       c->proc = 0;
-      printf("testdeque6\n");
+      // printf("testdeque6\n");
       release(&proc->lock);
-      printf("testdeque7\n");
+      // printf("testdeque7\n");
     }
     // for(p = proc; p < &proc[NPROC]; p++) {
     //   acquire(&p->lock);
