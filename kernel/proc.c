@@ -371,6 +371,7 @@ userinit(void)
 
   p = allocproc();
   initproc = p;
+  queue = newqueue();
   
   // allocate one user page and copy init's instructions
   // and data into it.
@@ -650,7 +651,7 @@ scheduler_rr(void)
   struct cpu *c = mycpu();
   c->proc = 0;
   int queueid;
-  queue = newqueue();
+  //queue = newqueue();
   
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
@@ -701,7 +702,7 @@ scheduler_stride(void)
   struct cpu *c = mycpu();
   c->proc = 0;
   int queueid;
-  queue = newqueue();
+  //queue = newqueue();
   
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
