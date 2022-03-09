@@ -5,3 +5,9 @@ Included in this zip file is the given xv6-riscv with
 
 Files added to the project:
 user/test.c
+
+Added code to proc.c, sysproc.c, and proc.h
+
+
+The code is able to run through the while loop once and then it gives an error. From testing, enqueue and dequeue work just fine. We just can't figure out why
+it stops working after running through the while loop once.
