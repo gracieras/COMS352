@@ -661,6 +661,7 @@ scheduler_rr(void)
     {
       printf("%d\n", qtable[i].next);
     }
+    break;
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
       printf("testdeque1");
