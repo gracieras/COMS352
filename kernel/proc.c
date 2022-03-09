@@ -394,7 +394,7 @@ userinit(void)
   }
   else if (SCHEDULER == 2)
   {
-    for (int i = 0; i < 66; i++)
+    for (int i = 0; i < NPROC; i++)
     {
       //nice(p->nicevalue);
       if (p->stride < qtable[getitem(i)].pass)
@@ -483,7 +483,7 @@ fork(void)
   }
   else if (SCHEDULER == 2)
   {
-    for (int i = 0; i < 66; i++)
+    for (int i = 0; i < NPROC; i++)
     {
       //nice(np->nicevalue);
       if (np->stride < qtable[getitem(i)].pass)
@@ -658,7 +658,7 @@ scheduler_rr(void)
     intr_on();
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
-      queueid = dequeue(queue);
+      queueid = dequeue(queue); //fifo
       acquire(&proc->lock);
       proc[queueid].state = RUNNING;
       c->proc = proc;
@@ -688,18 +688,16 @@ scheduler_rr(void)
 void
 scheduler_stride(void)
 {
-  //struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
   int queueid;
-  //queue = newqueue();
   
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
-      queueid = dequeue(queue);
+      queueid = dequeue(queue); //tride
       acquire(&proc->lock);
       proc[queueid].state = RUNNING;
       c->proc = proc;
@@ -707,23 +705,6 @@ scheduler_stride(void)
       c->proc = 0;
       release(&proc->lock);
     }
-
-    // for(p = proc; p < &proc[NPROC]; p++) {
-    //   acquire(&p->lock);
-    //   if(p->state == RUNNABLE) {
-    //     // Switch to chosen process.  It is the process's job
-    //     // to release its lock and then reacquire it
-    //     // before jumping back to us.
-    //     p->state = RUNNING;
-    //     c->proc = p;
-    //     swtch(&c->context, &p->context);
-
-    //     // Process is done running for now.
-    //     // It should have changed its p->state before coming back.
-    //     c->proc = 0;
-    //   }
-    //   release(&p->lock);
-    // }
   }
 }
 
@@ -770,7 +751,7 @@ yield(void)
   }
   else if (SCHEDULER == 2)
   {
-    for (int i = 0; i < 66; i++)
+    for (int i = 0; i < NPROC; i++)
     {
       //nice(p->nicevalue);
       if (p->stride < qtable[getitem(i)].pass)
@@ -856,7 +837,7 @@ wakeup(void *chan)
         }
         else if (SCHEDULER == 2)
         {
-          for (int i = 0; i < 66; i++)
+          for (int i = 0; i < NPROC; i++)
           {
             //nice(p->nicevalue);
             if (p->stride < qtable[getitem(i)].pass)
@@ -895,7 +876,7 @@ kill(int pid)
         }
         else if (SCHEDULER == 2)
         {
-          for (int i = 0; i < 66; i++)
+          for (int i = 0; i < NPROC; i++)
           {
             //nice(p->nicevalue);
             if (p->stride < qtable[getitem(i)].pass)
@@ -913,23 +894,6 @@ kill(int pid)
   }
   return -1;
 }
-
-// int
-// nice(int nicevalue)
-// {
-
-//   struct proc *p = myproc();
-//   acquire(&p->lock);
-//   if (nicevalue < -20 || nicevalue > 19)
-//   {
-//     release(&p->lock);
-//     return -1;
-//   }
-//   p->nicevalue = nicevalue;
-//   // myproc()->nicevalue = nicevalue;
-//   release(&p->lock);
-//   return 0;
-// }
 
 // Copy to either a user address, or kernel address,
 // depending on usr_dst.
