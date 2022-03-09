@@ -646,9 +646,23 @@ scheduler(void)
 }
 
 void
+testing(void)
+{
+  struct proc *p;
+  for(p = proc; p < &proc[NPROC]; p++) {
+      acquire(&p->lock);
+      if(p->state == RUNNABLE) {
+        enqueue(p->pid, queue);
+      }
+      release(&p->lock);
+    }
+}
+
+void
 scheduler_rr(void)
 {
   //struct proc *p;
+  testing();
   struct cpu *c = mycpu();
   c->proc = 0;
   int queueid;
@@ -658,9 +672,9 @@ scheduler_rr(void)
     intr_on();
     for (int i = 0; i < NPROC; i++)
     {
-      printf("%d\n", qtable[i].next);
+      printf("%d ", qtable[i].next);
     }
-    break;
+    printf("\n");
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
       printf("testdeque1");
