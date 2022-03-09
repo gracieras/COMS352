@@ -644,9 +644,9 @@ scheduler(void)
     }
   }
 }
-
+//enqueues the first process
 void
-testing(void)
+enqueue_init(void)
 {
   struct proc *p;
   for(p = proc; p < &proc[NPROC]; p++) {
@@ -662,7 +662,7 @@ void
 scheduler_rr(void)
 {
   //struct proc *p;
-  testing();
+  enqueue_init();
   struct cpu *c = mycpu();
   c->proc = 0;
   int queueid;
