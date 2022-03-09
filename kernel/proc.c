@@ -186,7 +186,7 @@ void
 procinit(void)
 {
   struct proc *p;
-  
+  queue = newqueue();
   initlock(&pid_lock, "nextpid");
   initlock(&wait_lock, "wait_lock");
   for(p = proc; p < &proc[NPROC]; p++) {
@@ -371,7 +371,6 @@ userinit(void)
 
   p = allocproc();
   initproc = p;
-  queue = newqueue();
   
   // allocate one user page and copy init's instructions
   // and data into it.
