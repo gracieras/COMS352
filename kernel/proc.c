@@ -644,6 +644,7 @@ scheduler(void)
     }
   }
 }
+
 //enqueues the first process
 void
 enqueue_init(void)
@@ -661,56 +662,23 @@ enqueue_init(void)
 void
 scheduler_rr(void)
 {
-  //struct proc *p;
   enqueue_init();
   struct cpu *c = mycpu();
   c->proc = 0;
   int queueid;
-  //queue = newqueue();
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    // for (int i = 0; i < NPROC; i++)
-    // {
-    //   printf("%d ", qtable[i].next);
-    // }
-    // printf("\n");
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
-      printf("head %d first node %d tail %d ", queuehead(queue), firstid(queue), queuetail(queue));
       queueid = dequeue(queue); //fifo
-      
-      // printf("queueid %d\n", queueid);
-      // printf("testdeque1\n");
       acquire(&proc->lock);
-      // printf("testdeque2\n");
       proc[queueid].state = RUNNING;
-      // printf("testdeque3\n");
       c->proc = proc;
-      // printf("testdeque4\n");
       swtch(&c->context, &proc->context);
-      // printf("testdeque5\n");
       c->proc = 0;
-      // printf("testdeque6\n");
       release(&proc->lock);
-      // printf("testdeque7\n");
     }
-    // for(p = proc; p < &proc[NPROC]; p++) {
-    //   acquire(&p->lock);
-    //   if(p->state == RUNNABLE) {
-    //     // Switch to chosen process.  It is the process's job
-    //     // to release its lock and then reacquire it
-    //     // before jumping back to us.
-    //     p->state = RUNNING;
-    //     c->proc = p;
-    //     swtch(&c->context, &p->context);
-
-    //     // Process is done running for now.
-    //     // It should have changed its p->state before coming back.
-    //     c->proc = 0;
-    //   }
-    //   release(&p->lock);
-    // }
   }
 }
 
@@ -725,7 +693,7 @@ scheduler_stride(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
+    while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue); //tride
       acquire(&proc->lock);
