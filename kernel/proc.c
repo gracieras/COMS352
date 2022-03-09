@@ -678,6 +678,7 @@ scheduler_rr(void)
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue); //fifo
+      printf("%d\n", queueid);
       printf("testdeque1\n");
       acquire(&proc->lock);
       printf("testdeque2\n");
