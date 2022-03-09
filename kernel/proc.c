@@ -717,6 +717,7 @@ scheduler_rr(void)
 void
 scheduler_stride(void)
 {
+  enqueue_init();
   struct cpu *c = mycpu();
   c->proc = 0;
   int queueid;
