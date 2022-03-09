@@ -656,7 +656,8 @@ scheduler_rr(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    while (!isempty(queue)) //goes through the queue instead of searching for runnable
+    
+    while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue); //fifo
       acquire(&proc->lock);
@@ -695,7 +696,7 @@ scheduler_stride(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    while (!isempty(queue)) //goes through the queue instead of searching for runnable
+    while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue); //tride
       acquire(&proc->lock);
