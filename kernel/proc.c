@@ -390,6 +390,7 @@ userinit(void)
   //adding the process to the queue depending on the scheduler
   if (SCHEDULER == 1)
   {
+    printf("test1");
     enqueue(p[pindex].pid, queue); //fifo
   }
   else if (SCHEDULER == 2)
@@ -479,6 +480,7 @@ fork(void)
   //adding the process to the queue depending on the scheduler
   if (SCHEDULER == 1)
   {
+    printf("test2");
     enqueue(np[pindex].pid, queue);
   }
   else if (SCHEDULER == 2)
@@ -659,6 +661,7 @@ scheduler_rr(void)
     
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
+      printf("testdeque1");
       queueid = dequeue(queue); //fifo
       acquire(&proc->lock);
       proc[queueid].state = RUNNING;
@@ -748,6 +751,7 @@ yield(void)
   //adding the process to the queue depending on the scheduler
   if (SCHEDULER == 1)
   {
+    printf("test3");
     enqueue(p[pindex].pid, queue);
   }
   else if (SCHEDULER == 2)
@@ -834,6 +838,7 @@ wakeup(void *chan)
         //adding the process to the queue depending on the scheduler
         if (SCHEDULER == 1)
         {
+          printf("test4");
           enqueue(p[pindex].pid, queue);
         }
         else if (SCHEDULER == 2)
@@ -873,6 +878,7 @@ kill(int pid)
         //adding the process to the queue depending on the scheduler
         if (SCHEDULER == 1)
         {
+          printf("test5");
           enqueue(p[pindex].pid, queue);
         }
         else if (SCHEDULER == 2)
