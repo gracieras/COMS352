@@ -658,6 +658,7 @@ scheduler_rr(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
+    count+=1;
     printf(count);
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
