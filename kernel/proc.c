@@ -655,6 +655,13 @@ scheduler_rr(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
+    while (isempty(queue))
+    {
+      if (!isempty(queue))
+      {
+        break;
+      }
+    }
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue);
@@ -699,6 +706,13 @@ scheduler_stride(void)
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
+    while (isempty(queue))
+    {
+      if (!isempty(queue))
+      {
+        break;
+      }
+    }
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue);
