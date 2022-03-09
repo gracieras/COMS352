@@ -660,7 +660,7 @@ scheduler_rr(void)
     intr_on();
     for (int i = 0; i < NPROC; i++)
     {
-      printf("%d", qtable[i].next);
+      printf("%d\n", qtable[i].next);
     }
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
