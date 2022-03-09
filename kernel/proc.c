@@ -654,11 +654,11 @@ scheduler_rr(void)
   c->proc = 0;
   int queueid;
   //queue = newqueue();
-  
+  int count = 0;
   for(;;){
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    
+    printf(count);
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
       printf("testdeque1");
