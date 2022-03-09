@@ -677,14 +677,20 @@ scheduler_rr(void)
     // printf("\n");
     while (firstid(queue) != queuetail(queue)) //goes through the queue instead of searching for runnable
     {
-      // printf("testdeque1");
       queueid = dequeue(queue); //fifo
+      printf("testdeque1\n");
       acquire(&proc->lock);
+      printf("testdeque2\n");
       proc[queueid].state = RUNNING;
+      printf("testdeque3\n");
       c->proc = proc;
+      printf("testdeque4\n");
       swtch(&c->context, &proc->context);
+      printf("testdeque5\n");
       c->proc = 0;
+      printf("testdeque6\n");
       release(&proc->lock);
+      printf("testdeque7\n");
     }
     // for(p = proc; p < &proc[NPROC]; p++) {
     //   acquire(&p->lock);
