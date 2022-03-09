@@ -677,8 +677,9 @@ scheduler_rr(void)
     // printf("\n");
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
-      queueid = dequeue(queue); //fifo
       printf("head %d first node %d tail %d ", queuehead(queue), firstid(queue), queuetail(queue));
+      queueid = dequeue(queue); //fifo
+      
       printf("queueid %d\n", queueid);
       printf("testdeque1\n");
       acquire(&proc->lock);
