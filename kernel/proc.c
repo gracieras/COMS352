@@ -666,15 +666,12 @@ scheduler_rr(void)
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue);
-      // p = qtable[queueid].pass;
-      // uint64 pindex = p - proc;
+      acquire(&proc->lock);
       proc[queueid].state = RUNNING;
-      p = proc;
-      acquire(&p->lock);
-      c->proc = p;
-      swtch(&c->context, &proc[queueid].context);
+      c->proc = proc;
+      swtch(&c->context, &proc->context);
       c->proc = 0;
-      release(&p->lock);
+      release(&proc->lock);
     }
     // for(p = proc; p < &proc[NPROC]; p++) {
     //   acquire(&p->lock);
@@ -717,15 +714,12 @@ scheduler_stride(void)
     while (!isempty(queue)) //goes through the queue instead of searching for runnable
     {
       queueid = dequeue(queue);
-      // p = qtable[queueid].pass;
-      // uint64 pindex = p - proc;
+      acquire(&proc->lock);
       proc[queueid].state = RUNNING;
-      p = proc;
-      acquire(&p->lock);
-      c->proc = p;
-      swtch(&c->context, &proc[queueid].context);
+      c->proc = proc;
+      swtch(&c->context, &proc->context);
       c->proc = 0;
-      release(&p->lock);
+      release(&proc->lock);
     }
 
     // for(p = proc; p < &proc[NPROC]; p++) {
